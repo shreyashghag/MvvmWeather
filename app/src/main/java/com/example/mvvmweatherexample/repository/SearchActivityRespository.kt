@@ -8,7 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mvvmweatherexample.model.Location
 import com.example.mvvmweatherexample.network.BASE_URL
 import com.example.mvvmweatherexample.network.WeatherNetwork
+import com.example.mvvmweatherexample.room.WeatherDatabase
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,10 +52,19 @@ class SearchActivityRespository(var application: Application) {
                 ) {
                     Log.d("SearchRespository ","Response${Gson().toJson(response.body())}")
                     showProgress.value=false
+                    insert(response.body()!!)
                     locationList.value=response.body()
 
                 }
             })
+
+    }
+
+     fun insert(list: List<Location>)= CoroutineScope(Dispatchers.Main).launch {
+        WeatherDatabase.get(application).getWeatherDoa().insertLocation(list)
+        /*WeatherDatabase.get(application).getWeatherDoa().getLocation("%ban%").forEach {
+            Log.d("SearchRepostiory","Response ${it.title}")
+        }*/
 
     }
 }

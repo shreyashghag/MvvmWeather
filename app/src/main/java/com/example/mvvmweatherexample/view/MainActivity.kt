@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mvvmweatherexample.R
 import com.example.mvvmweatherexample.adapter.SearchAdapter
 import com.example.mvvmweatherexample.model.Location
+import com.example.mvvmweatherexample.room.WeatherDatabase
 import com.example.mvvmweatherexample.viewmodel.SearchActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        WeatherDatabase.get(application)
         viewModel= ViewModelProvider(this).get(SearchActivityViewModel::class.java)
 
         ivSearch.setOnClickListener {
